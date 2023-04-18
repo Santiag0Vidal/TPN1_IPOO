@@ -1,5 +1,7 @@
 <?php
 include 'Viaje.php';
+include 'ResponsableV.php';
+include 'Pasajero.php';
 $viaje = viajePrecargado();
 
 do {
@@ -42,7 +44,10 @@ function ingresoViaje()
     } while ($continuar);
     $pasajeros = crearPasajeros($cantidad);
 
-    return new Viaje($codigo, $destino, $cantidad, $pasajeros);
+    $responsable = crearResponsable();
+
+
+    return new Viaje($codigo, $destino, $cantidad, $pasajeros, $responsable);
 }
 
 /**
@@ -71,6 +76,9 @@ function modificarPasajero($viaje)
                 break;
             case 4:
                 $viaje = modificarPasajeros($viaje);
+                break;
+            case 5:
+                $viaje = modificarResponsable($viaje);
                 break;
             default:
                 break;
@@ -236,7 +244,10 @@ function crearPasajero($pasajeros)
             echo "Numero de documento invalido";
         }
     } while ($band);
-    return ["nombre" => $nombre, "apellido" => $apellido, "numero de documento" => $numero];
+    echo "Ingrese el numero de telefono\n";
+    $telefono = trim(fgets(STDIN));
+    $pasajero = new Pasajero($nombre, $apellido, $numero, $telefono);
+    return $pasajero;
 }
 
 //Menu para modificar Pasajeros
@@ -258,6 +269,114 @@ function menuPasajeros()
     } while ($band);
     return $opcion;
 }
+function menuResponsable(){
+    $band= true;
+    do{
+        echo 
+        "Presione:  
+        1 cambiar responsable
+        2 modificar responsable
+        3 ver informacion del responsable
+        4 para salir\n";
+        $opcion =  trim(fgets(STDIN));
+        if($opcion>0 && $opcion<=4){
+            $band=false;
+        }else{
+            echo "Opcion invalida\n";
+        }
+    }while($band);
+
+    return $opcion;
+}
+
+function crearResponsable()
+{
+    echo "Ingrese el número de empleado\n";
+    $numero = trim(fgets(STDIN));
+    echo "Ingrese el número de licencia\n";
+    $licencia = trim(fgets(STDIN));
+    echo "Ingrese el nombre\n";
+    $nombre = trim(fgets(STDIN));
+    echo "Ingrese el apellido\n";
+    $apellido = trim(fgets(STDIN));
+    return new ResponsableV($numero, $licencia, $nombre, $apellido);
+}
+
+function modificarResponsable($viaje){
+
+    do{
+        $opcion= menuResponsable();
+        switch($opcion){
+            case 1: 
+                $responsable=crearResponsable();
+                $viaje-> setResponsable($responsable);
+                break;
+            case 2: 
+                $viaje= modResponsable($viaje);
+                break;
+            case 3:
+                $responsable= $viaje->getResponsable();
+                echo $responsable-> __toString()."\n";
+                break;
+            default: 
+                break;
+            };
+    }while($opcion!=4);
+
+    return $viaje;
+
+}
+
+function modResponsable($viaje){
+    do{
+        $opcion= menuModificarResponsable();
+        switch($opcion){
+            case 1: 
+                $responsable= $viaje-> getResponsable();
+                echo"Ingrese el numero de licencia\n";
+                $numero= trim(fgets(STDIN));
+                $responsable->setLicencia($numero);
+                $viaje-> setResponsable($responsable);
+                break;
+            case 2: 
+                $responsable= $viaje-> getResponsable();
+                echo"Ingrese el nombre\n";
+                $nombre= trim(fgets(STDIN));
+                $responsable->setNombre($nombre);
+                $viaje-> setResponsable($responsable);
+                break;
+            case 3:
+            $responsable= $viaje-> getResponsable();
+            echo"Ingrese el apellido\n";
+            $apellido= trim(fgets(STDIN));
+            $responsable->setApellido($apellido);
+            $viaje-> setResponsable($responsable);
+                break;
+            default: 
+                break;
+            };
+    }while($opcion!=4);
+
+    return $viaje;
+}
+function menuModificarResponsable(){
+    $band= true;
+    do{
+        echo 
+        "Presione:  
+        1 cambiar número de licencia
+        2 cambiar nombre
+        3 cambiar apellido
+        4 para salir\n";
+        $opcion =  trim(fgets(STDIN));
+        if($opcion>0 && $opcion<=4){
+            $band=false;
+        }else{
+            echo "Opcion invalida\n";
+        }
+    }while($band);
+    return $opcion;
+}
 
 //Menu para modificar viajes
 function menuModificacion()
@@ -270,9 +389,10 @@ function menuModificacion()
             2 modificar destino 
             3 modificar cantidad
             4 modificar lista de pasajeros
-            5 para salir\n";
+            5 modificar responsable del viaje
+            6 para salir\n";
         $opcion =  trim(fgets(STDIN));
-        if ($opcion > 0 && $opcion <= 5) {
+        if ($opcion > 0 && $opcion <= 6) {
             $band = false;
         } else {
             echo "Opcion invalida\n";
@@ -305,11 +425,15 @@ function menuViaje()
 function viajePrecargado()
 {
     $pasajeros = [];
-    $pasajeros[0] = ["nombre" => "Nicolas", "apellido" => "Cruz", "nro documento" => 37264859];
-    $pasajeros[1] = ["nombre" => "Lionel", "apellido" => "Messi", "nro documento" => 42652479];
-    $pasajeros[2] = ["nombre" => "Victoria", "apellido" => "Hernandes", "nro documento" => 29525857];
-    $pasajeros[3] = ["nombre" => "Cintia", "apellido" => "Fernandes", "nro documento" => 25874857];
-    return new Viaje(1, "Neuquen", 10, $pasajeros);
+    //  $pasajeros[0] = ["nombre" => "Nicolas", "apellido" => "Cruz", "nro documento" => 37264859];
+    //  $pasajeros[1] = ["nombre" => "Lionel", "apellido" => "Messi", "nro documento" => 42652479];
+    //  $pasajeros[2] = ["nombre" => "Victoria", "apellido" => "Hernandes", "nro documento" => 29525857];
+    //  $pasajeros[3] = ["nombre" => "Cintia", "apellido" => "Fernandes", "nro documento" => 25874857];
+    $pasajeros[0] = new Pasajero("Nicolas", "Cruz", 37264859, 434765765343);
+    $pasajeros[1] = new Pasajero("Lionel", "Messi", 42652479, 434354654);
+    $pasajeros[2] = new Pasajero("Victoria", "Hernandes", 29525857, 4367574343);
+    $pasajeros[3] = new Pasajero("Cintia", "Fernandes", 25874857, 476573434343);
+    return new Viaje(1, "Neuquen", 10, $pasajeros, new ResponsableV("Salomon", "Rondon", 321312, 42321321));
 }
 
 /**
@@ -321,12 +445,12 @@ function viajePrecargado()
  */
 function buscarDocumento($num, $arr)
 {
-    $band = true;
+    $continuar = true;
     $res = -1;
     $lenght = count($arr);
     $n = 0;
-    while ($n < $lenght and $band) {
-        if (($arr[$n])["numero de documento"] == $num) {
+    while ($n < $lenght and $continuar) {
+        if (($arr[$n])->getNumDocumento() == $num) {
             $band = false;
             $res = $n;
         }
