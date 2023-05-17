@@ -1,54 +1,93 @@
 <?php
 
-class Pasajero
-{
+class Pasajero{
+
     private $nombre;
     private $apellido;
-    private $numDocumento;
+    private $dni;
     private $telefono;
+    private $nroAsiento;
+    private $nroTicket;
 
-    public function __construct($nombre, $apellido, $numDocumento, $telefono)
+    public function __construct($nombre, $apellido, $dni,$telefono, $nroAsiento, $nroTicket)
     {
         $this->nombre = $nombre;
         $this->apellido = $apellido;
-        $this->numDocumento = $numDocumento;
+        $this->dni = $dni;
         $this->telefono = $telefono;
+        $this->nroAsiento = $nroAsiento;
+        $this->nroTicket =$nroTicket;
     }
-    public function getNombre()
-    {
+
+    public function getNombre(){
         return $this->nombre;
     }
-    public function getApellido()
-    {
+
+    public function getApellido(){
         return $this->apellido;
     }
-    public function getNumDocumento()
-    {
-        return $this->numDocumento;
+
+    public function getDni(){
+        return $this->dni;
     }
-    public function getTelefono()
-    {
+
+    public function getTelefono(){
         return $this->telefono;
     }
-    public function setNombre($nombre)
-    {
-        return $this->nombre = $nombre;
+    
+    public function setNombre($nombre){
+        $this->nombre = $nombre;
     }
-    public function setApellido($apellido)
-    {
-        return $this->apellido = $apellido;
+
+    public function setApellido($apellido){
+        $this->apellido = $apellido; 
     }
-    public function setNumDocumento($numDocumento)
-    {
-        return $this->numDocumento = $numDocumento;
+
+    public function setTelefono($telefono){
+        $this->telefono = $telefono;
     }
-    public function setTelefono($telefono)
+
+
+    public function getNroAsiento()
     {
-        return $this->telefono = $telefono;
+        return $this->nroAsiento;
+    }
+
+    public function setNroAsiento($nroAsiento)
+    {
+        $this->nroAsiento = $nroAsiento;
+
+        return $this;
+    }
+
+    public function getNroTicket()
+    {
+        return $this->nroTicket;
+    }
+
+    public function setNroTicket($nroTicket)
+    {
+        $this->nroTicket = $nroTicket;
+
+        return $this;
     }
 
     public function __toString()
     {
-        return "(" . $this->getNombre() . "," . $this->getApellido() . "," . $this->getNumDocumento() . "," . $this->getTelefono() . ")\n";
+        return "(".$this->getNombre().", ".$this->getApellido().", ".$this->getDni().", ".$this->getTelefono().", ".$this->getNroAsiento().", ".$this->getNroTicket().")"; 
     }
-}
+
+    public function darPorcentajeIncremento(){
+        return 0.1;        
+    }
+
+    public function esVIP(){
+        return false;
+    }
+
+    public function esConNecesidades(){
+        return false;
+    }
+
+    }
+?>
