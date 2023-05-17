@@ -1,56 +1,53 @@
 <?php
 
-class ResponsableV
-{
-
+class ResponsableV{
+    
+    private $numero;
+    private $licencia;
     private $nombre;
     private $apellido;
-    private $numEmpleado;
-    private $numLicencia;
 
-    public function __construct($nombre, $apellido, $numEmpleado, $numLicencia)
+    public function __construct($numero, $licencia, $nombre, $apellido)
     {
-        $this->nombre = $nombre;
-        $this->apellido = $apellido;
-        $this->numEmpleado = $numEmpleado;
-        $this->numLicencia = $numLicencia;
+        $this->numero= $numero;
+        $this->licencia= $licencia;
+        $this->nombre= $nombre;
+        $this->apellido= $apellido;
+
     }
 
-    public function getNombre()
-    {
+    public function getNumero(){
+        return $this->numero;
+    }
+
+    public function getLicencia(){
+        return $this->licencia;
+    }
+
+    public function getNombre(){
         return $this->nombre;
     }
-    public function getApellido()
-    {
+
+    public function getApellido(){
         return $this->apellido;
     }
-    public function getNumEmpleado()
-    {
-        return $this->numEmpleado;
+
+    public function setLicencia($licencia){
+        $this->licencia=$licencia; 
     }
-    public function getNumLicencia()
-    {
-        return $this->numLicencia;
+
+    public function setNombre($nombre){
+        $this->nombre = $nombre;
     }
-    public function setNombre($nombre)
-    {
-        return $this->nombre = $nombre;
-    }
-    public function setApellido($apellido)
-    {
-        return $this->apellido = $apellido;
-    }
-    public function setNumEmpleado($numEmpleado)
-    {
-        return $this->numEmpleado = $numEmpleado;
-    }
-    public function setNumLicencia($numLicencia)
-    {
-        return $this->numLicencia = $numLicencia;
+
+    public function setApellido($apellido){
+        $this->apellido = $apellido; 
     }
 
     public function __toString()
     {
-        return "(" . $this->getNombre() . "," . $this->getApellido() . "," . $this->getNumEmpleado() . "," . $this->getNumLicencia() . ")";
+        return "(".$this->getNumero().", ".$this->getLicencia().", ".$this->getNombre().", ".$this->getApellido().")";
     }
 }
+
+?>
